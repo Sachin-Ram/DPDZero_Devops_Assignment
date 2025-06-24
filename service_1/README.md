@@ -19,7 +19,7 @@ This is a lightweight HTTP service written in Go. It serves two endpoints: `/pin
 #### Prerequisites
 
 * Go 1.22+
-* Docker (optional, for containerized setup)
+* Docker 
 
 #### Run with Go:
 
@@ -39,10 +39,15 @@ Then visit:
 
 ---
 
-### 📂 Project Structure
+## Build and Run Docker
 
+#### Build the Docker Image for Service 1
+
+```bash
+cd ./service_1
+docker build -t image-name .
 ```
-service1/
-├── main.go
-└── README.md
+#### Run Service 1 on Port 8001
+```bash
+docker run -p 8001:8001 image-name
 ```
