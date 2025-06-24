@@ -13,12 +13,6 @@ This is a lightweight HTTP service written in Python using Flask. It exposes two
 
 ---
 
-### 🚀 Running Locally
-
-#### Prerequisites
-
-* uv - https://docs.astral.sh/uv/getting-started/installation/
-
 #### Run with Python:
 
 ```bash
@@ -37,11 +31,15 @@ Then visit:
 
 ---
 
-### 📂 Project Structure
+## Build and Run Docker
 
+#### Build the Docker Image for Service 1
+
+```bash
+cd ./service_2
+docker build -t image-name .
 ```
-service2/
-├── Dockerfile
-├── app.py
-└── README.md
+#### Run Service 1 on Port 8001
+```bash
+docker run -p 8002:8002 image-name
 ```
