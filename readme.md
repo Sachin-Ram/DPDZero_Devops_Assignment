@@ -1,34 +1,18 @@
 ### 🧪 **DevOps Intern Assignment: Nginx Reverse Proxy + Docker**
 
-You are expected to set up a simple system where:
+### 👋 Hello, I'm Sachin Ram, and this is my submission for the DevOps intern assignment .
+
+This project demonstrates a containerized  architecture using **Docker**, **NGINX**, and **Docker Compose** to proxy multiple backend services through a single NGINX reverse proxy.
+
+
+## 📁 Project Structure
 
 1. **Two Dockerized backend services** (can be dummy services) run on different ports.
 2. An **Nginx reverse proxy** (also in a Docker container) routes:
 
    * `/service1` requests to backend service 1
    * `/service2` requests to backend service 2
-3. All services must be accessible via a single port (e.g., `localhost:8080`).
-
----
-
-### ✅ **Requirements**
-
-1. Use Docker Compose to bring up the entire system.
-2. Each backend service should respond with a JSON payload like:
-
-   ```json
-   {"service": "service1"}
-   ```
-3. The Nginx config should support:
-
-   * Routing based on URL path prefix (`/service1`, `/service2`)
-   * Logging incoming requests with timestamp and path
-4. The system should work with a single command:
-
-   ```bash
-   docker-compose up --build
-   ```
-5. Bonus: Add a health check for both services and show logs of successful routing.
+3. All services are accessible via a single port (e.g., `localhost:82`).
 
 ---
 
@@ -37,65 +21,64 @@ You are expected to set up a simple system where:
 ```
 .
 ├── docker-compose.yml
-├── nginx
-│   ├── default.conf
-│   └── Dockerfile
-├── service_1
-│   ├── app.py
-│   └── Dockerfile
-├── service_2
-│   ├── app.py
-│   └── Dockerfile
+├── nginx/
+│ ├── nginx.conf # NGINX configuration
+├── service_1/
+│ ├── app.py # Go service or equivalent
+│ └── Dockerfile
+├── service_2/
+│ ├── app.py # Python Flask service
+│ └── Dockerfile
 └── README.md
 ```
+---
+
+## ✅ Requirements Implemented
+
+| Feature                                       | Status |
+|----------------------------------------------|--------|
+| Two backend services                         | ✅      |
+| JSON responses per service                   | ✅      |
+| NGINX reverse proxy routing                  | ✅      |
+| Routing with URL prefix `/service1`, `/service2` | ✅  |
+| Logging timestamp and path                   | ✅      |
+| Healthchecks for services                    | ✅      |
+| Single command startup                       | ✅      |
+| Runs entirely with Docker (bridge network)   | ✅      |
+
+---
+---
+
+
+## 🌐 Routing Overview
+
+| Path                | Routed To         | Response                   |
+|---------------------|------------------|----------------------------|
+| `/service1/ping`    | `go_app:8001`    | `Json response from service1` |
+| `/service2/ping`    | `python_app:8002` | `Json response from service2` |
+
+
+---
+---
+## 🔁 NGINX Rewrite Logic (short)
+
+```nginx
+location /service1/ {
+    rewrite ^/service1(/.*)$ $1 break;
+    proxy_pass http://go_app;
+}
+
+location /service2/ {
+    rewrite ^/service2(/.*)$ $1 break;
+    proxy_pass http://python_app;
+}
 
 ---
 
-### 📦 Tech Constraints
+## 🚀 Quick Start
 
-* Nginx must run in a Docker container, not on host
-* Use bridge networking (no host networking)
+To start the entire system using Docker Compose:
 
----
-
-### 📝 Submission Instructions
-
-1. Upload your project to GitHub or GitLab.
-2. Include a short `README.md` with:
-
-   * Setup instructions
-   * How routing works
-   * Any bonus you implemented
-3. Deadline: **1 week**
-4. Bonus points for:
-
-   * Logging clarity
-   * Clean and modular Docker setup
-   * Healthcheck or automated test script
-
----
-
-### ❓FAQs
-
-**Q: Is this a full-time role?**
-Yes. You would need to be in office in Bangalore.
-
-**Q: Is there a stipend?**
-Yes. 20k INR per month
-
-**Q: How many positions are open?**
-Two positions are open.
-
-**Q: I am still in college. Can I apply?**
-Unfortunately, we are looking for post-college candidates.
-
-**Q: Can I reach out for doubts?**
-No — due to the volume of submissions. Please use your creativity and assumptions where needed.
-
-**Q: Can I use ChatGPT or Copilot?**
-Yes, feel free to use AI tools — we care about your implementation and understanding.
-
-**Q: This feels like a lot for an intern assignment.**
-We agree it’s non-trivial — we’ve received many applications, so this helps us filter based on quality.
-
+```bash
+docker-compose up --build
 
