@@ -1,20 +1,19 @@
 ### 🧪 **DevOps Intern Assignment: Nginx Reverse Proxy + Docker**
 
-### 👋 Hello, I'm Sachin Ram, and this is my submission for the DevOps intern assignment .
+### Hello, I'm Sachin Ram, and this is my submission for the DevOps intern assignment .
 
 This project demonstrates a containerized  architecture using **Docker**, **NGINX**, and **Docker Compose** to proxy multiple backend services through a single NGINX reverse proxy.
 
 
 ## 📁 Project Structure
 
-1. **Two Dockerized backend services** (can be dummy services) run on different ports.
-2. An **Nginx reverse proxy** (also in a Docker container) routes:
+1. **Two Dockerized backend services** run on different ports.
+2. An **Nginx reverse proxy** routes:
 
    * `/service1` requests to backend service 1
    * `/service2` requests to backend service 2
 3. All services are accessible via a single port (e.g., `localhost:82`).
 
----
 
 ### 📁 Suggested Project Structure
 
@@ -31,7 +30,6 @@ This project demonstrates a containerized  architecture using **Docker**, **NGIN
 │ └── Dockerfile
 └── README.md
 ```
----
 
 ## ✅ Requirements Implemented
 
@@ -46,9 +44,6 @@ This project demonstrates a containerized  architecture using **Docker**, **NGIN
 | Single command startup                       | ✅      |
 | Runs entirely with Docker (bridge network)   | ✅      |
 
----
----
-
 
 ## 🌐 Routing Overview
 
@@ -58,9 +53,7 @@ This project demonstrates a containerized  architecture using **Docker**, **NGIN
 | `/service2/ping`    | `python_app:8002` | `Json response from service2` |
 
 
----
----
-## 🔁 NGINX Rewrite Logic (short)
+## 🔁 NGINX Rewrite Logic 
 
 ```nginx
 location /service1/ {
@@ -72,13 +65,21 @@ location /service2/ {
     rewrite ^/service2(/.*)$ $1 break;
     proxy_pass http://python_app;
 }
+```
+## Health Checkup
+```yaml
+healthcheck:
+  test: ["CMD", "curl", "-f", "http://localhost:8002/ping"]
+  interval: 10s
+  timeout: 5s
+  retries: 3
+```
 
----
-
-## 🚀 Quick Start
+## Starting Docker Compose
 
 To start the entire system using Docker Compose:
 
 ```bash
 docker-compose up --build
 
+```
